@@ -1,0 +1,23 @@
+#ifndef MDPAROLACATALOG_H
+#define MDPAROLACATALOG_H
+
+#include <MD_Parola.h>
+#include <MD_MAX72xx.h>
+
+// Define the number of devices and hardware interface
+#define MAX_DEVICES 4
+#define CS_PIN 5
+#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
+
+class MDParolaCatalog
+{
+public:
+    MDParolaCatalog();
+    void begin();
+    void run(String message);
+
+private:
+    MD_Parola P;
+};
+
+#endif // MDPAROLACATALOG_H

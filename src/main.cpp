@@ -11,7 +11,7 @@ void setup()
   myCatalog.begin();
 }
 
-String received = "...???";
+String received = "Hello!";
 void loop()
 {
   if (btComm.available())

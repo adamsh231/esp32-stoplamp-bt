@@ -6,6 +6,8 @@
 BluetoothLEComm bleComm;
 MDParolaCatalog myCatalog;
 
+const char *message = "meow!";
+
 class MyCharacteristicCallbacks : public BLECharacteristicCallbacks
 {
   void onWrite(BLECharacteristic *pCharacteristic) override
@@ -17,8 +19,7 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks
       Serial.println("Received Value:");
       Serial.println(value.c_str());
 
-      myCatalog.clear();
-      myCatalog.run(value.c_str());
+      message = value.c_str();
     }
   }
 };
@@ -27,7 +28,6 @@ void setup()
 {
   bleComm.begin(new MyCharacteristicCallbacks());
   myCatalog.begin();
-  myCatalog.run("Hello!!");
 
   // bluetooth classic
   // btComm.begin();
@@ -35,7 +35,9 @@ void setup()
 
 void loop()
 {
-  myCatalog.runAnimation();
+
+  myCatalog.run(message);
+
 
   // bluetooth classic
   // myCatalog.run("Hello World");
@@ -44,6 +46,4 @@ void loop()
   //     received = btComm.receive();
   //     Serial.println("Received: " + received);
   //   }
-
-  delay(50);
 }

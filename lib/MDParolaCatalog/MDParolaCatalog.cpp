@@ -20,22 +20,22 @@ void MDParolaCatalog::begin()
     P.displayClear();
 }
 
-void MDParolaCatalog::test()
+void MDParolaCatalog::clear()
 {
-    P.displayText("hello", PA_CENTER, 100, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-}
-
-void MDParolaCatalog::testClear(){
     P.displayClear();
 }
 
-void MDParolaCatalog::testAnimate(){
-    P.displayAnimate();
+void MDParolaCatalog::runAnimation()
+{
+    if (P.displayAnimate())
+    {
+        P.displayReset();
+    }
 }
 
 void MDParolaCatalog::run(String message)
 {
     P.displayText(message.c_str(), position[random(ARRAY_SIZE(position))], 30, 0, effects[random(ARRAY_SIZE(effects))], effects[random(ARRAY_SIZE(effects))]);
-    while (!P.displayAnimate())
+        while (!P.displayAnimate())
         ;
 }

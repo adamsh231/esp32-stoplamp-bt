@@ -1,6 +1,8 @@
 #include "BluetoothLEComm.h"
 
-void BluetoothLEComm::begin()
+
+
+void BluetoothLEComm::begin(BLECharacteristicCallbacks *callback)
 {
     Serial.begin(9600);
 
@@ -14,7 +16,7 @@ void BluetoothLEComm::begin()
 
     pCharacteristic->setValue("Hello World says Neil");
 
-    pCharacteristic->setCallbacks(&_callbacks);
+    pCharacteristic->setCallbacks(callback);
 
     pService->start();
     BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
@@ -24,9 +26,4 @@ void BluetoothLEComm::begin()
     pAdvertising->setMinPreferred(0x12);
     BLEDevice::startAdvertising();
     Serial.println("Characteristic defined! Now you can read and write it from your phone!");
-}
-
-void BluetoothLEComm::setOnWriteCallback(OnWriteCallback callback)
-{
-    _callbacks.setOnWriteCallback(callback);
 }

@@ -16,9 +16,8 @@ public:
     MDParolaCatalog();
     void begin();
     void run(String message);
-    void test();
-    void testClear();
-    void testAnimate();
+    void clear();
+    void runAnimation();
 
 private:
     MD_Parola P;

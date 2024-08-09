@@ -1,27 +1,4 @@
 // #include <BluetoothComm.h>
-
-// BluetoothComm btComm("ESP32_BT");
-// MDParolaCatalog myCatalog;
-
-// void setup()
-// {
-//   Serial.begin(9600);
-//   btComm.begin();
-//   myCatalog.begin();
-// }
-
-// String received = "Hello!";
-// void loop()
-// {
-//   if (btComm.available())
-//   {
-//     received = btComm.receive();
-//     Serial.println("Received: " + received);
-//   }
-//   myCatalog.run(received);
-// }
-
-// #include <BluetoothComm.h>
 #include <BluetoothLEComm.h>
 #include <MDParolaCatalog.h>
 
@@ -29,26 +6,28 @@
 BluetoothLEComm bleComm;
 MDParolaCatalog myCatalog;
 
-void onWriteReceived(std::string value)
+class MyCharacteristicCallbacks : public BLECharacteristicCallbacks
 {
-  Serial.println("Callback received value:");
-  Serial.println(value.c_str());
+  void onWrite(BLECharacteristic *pCharacteristic) override
+  {
+    std::string value = pCharacteristic->getValue();
 
-  if (value == "ON")
-  {
-    myCatalog.test();
+    if (value.length() > 0)
+    {
+      Serial.println("Received Value:");
+      Serial.println(value.c_str());
+
+      myCatalog.clear();
+      myCatalog.run(value.c_str());
+    }
   }
-  else if (value == "OFF")
-  {
-    myCatalog.testClear();
-  }
-}
+};
 
 void setup()
 {
-  bleComm.begin();
-  bleComm.setOnWriteCallback(onWriteReceived);
+  bleComm.begin(new MyCharacteristicCallbacks());
   myCatalog.begin();
+  myCatalog.run("Hello!!");
 
   // bluetooth classic
   // btComm.begin();
@@ -56,7 +35,7 @@ void setup()
 
 void loop()
 {
-  myCatalog.testAnimate();
+  myCatalog.runAnimation();
 
   // bluetooth classic
   // myCatalog.run("Hello World");
@@ -65,4 +44,6 @@ void loop()
   //     received = btComm.receive();
   //     Serial.println("Received: " + received);
   //   }
+
+  delay(50);
 }

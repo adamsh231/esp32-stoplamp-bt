@@ -1,5 +1,5 @@
 import pathlib
 
-DAG_DIRNAME = pathlib.Path(__file__).resolve().parents[1]
+DAG_DIRNAME = pathlib.Path(__file__).resolve()
 
 print(DAG_DIRNAME)
